@@ -51,7 +51,11 @@ class MQTTPublisher:
         :param device: The device to handle alarm events for.
         """
         while True:
-            await self.handle_device_alarm(device)
+            try:
+                await self.handle_device_alarm(device)
+            except:
+                logging.exception("Exception in handle_device_alarm")
+                await trio.sleep(1)
 
     async def handle_device_alarm(self, device):
         """
@@ -78,7 +82,11 @@ class MQTTPublisher:
         :param device: The device to listen to update events for
         """
         while True:
-            await self.handle_device_update(device)
+            try:
+                await self.handle_device_update(device)
+            except:
+                logging.exception("Exception in handle_device_update")
+                await trio.sleep(1)
 
     async def handle_device_update(self, device):
         """
@@ -105,7 +113,11 @@ class MQTTPublisher:
         :param device: The device to handle discover event for.
         """
         if self.ha_autodiscover is True and device.device_type != "DEL":
-            await self.handle_device_discovery(device)
+            try:
+                await self.handle_device_discovery(device)
+            except:
+                logging.exception("Exception in handle_device_discovery")
+                await trio.sleep(1)
 
     async def handle_device_discovery(self, device):
         """
@@ -135,7 +147,11 @@ class MQTTPublisher:
         :param device: The device that will get the message
         """
         while True:
-            await self.handle_device_messages(hub)
+            try:
+                await self.handle_device_messages(hub)
+            except:
+                logging.exception("Exception in handle_device_messages")
+                await trio.sleep(1)
 
     async def handle_device_messages(self, hub):
         """
