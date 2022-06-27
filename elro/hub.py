@@ -145,13 +145,16 @@ class Hub:
             self.connected = True
 
         if reply.startswith('{') and reply != "{ST_answer_OK}":
-            msg = json.loads(reply)
-            dat = msg["params"]
+            try:
+                msg = json.loads(reply)
+                dat = msg["params"]
 
-            await self.handle_command(dat)
+                await self.handle_command(dat)
 
-            # Send reply
-            await self.send_data('APP_answer_OK')
+                # Send reply
+                await self.send_data('APP_answer_OK')
+            except:
+                logging.exception("Error trying to parse and/or handle message: "+reply)
 
     async def process_device(self, data):
         """
