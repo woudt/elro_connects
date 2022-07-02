@@ -66,12 +66,6 @@ class MQTTPublisher:
         async with open_mqttclient(uri=self.broker_host) as client:
             logging.info(f"Publish alarm on '{self.topic_name(device)}':\n"
                          f"{device.json.encode('utf-8')}")
-            await client.publish(f'{self.topic_name(device)}/state',
-                                device.device_state.encode('utf-8'),
-                                QOS_1)
-            await client.publish(f'{self.topic_name(device)}/battery',
-                                str(device.battery_level).encode('utf-8'),
-                                QOS_1)
             await client.publish(f'{self.topic_name(device)}',
                                  device.json.encode('utf-8'),
                                  QOS_1)
@@ -97,12 +91,6 @@ class MQTTPublisher:
         async with open_mqttclient(uri=self.broker_host) as client:
             logging.info(f"Publish update on '{self.topic_name(device)}':\n"
                          f"{device.json.encode('utf-8')}")
-            await client.publish(f'{self.topic_name(device)}/state',
-                                device.device_state.encode('utf-8'),
-                                QOS_1)
-            await client.publish(f'{self.topic_name(device)}/battery',
-                                str(device.battery_level).encode('utf-8'),
-                                QOS_1)
             await client.publish(f'{self.topic_name(device)}',
                                  device.json.encode('utf-8'),
                                  QOS_1)
